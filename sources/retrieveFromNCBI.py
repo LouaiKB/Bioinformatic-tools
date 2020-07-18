@@ -1,34 +1,42 @@
 from Bio import Entrez, SeqIO
 
 class ResearchFromNcbi: 
+    
+    saveNumb = 0 
+    
     def __init__(self, email, research, database): 
         self.email = email 
         self.research = research 
-        self.database = database 
-        self.saveNumb = 0 
+        self.database = database  
         self.savingPath = "" 
 
     def doResearch(self): 
         try: 
-            return Entrez.esearch(db=self.database, term=self.research, rettype='genbank')
+            Entrez.email = self.email
+            return Entrez.esearch(db=self.database, term=self.research, rettype='gb')
         except IOError:
             return "No connection!"
 
     def retrieve(self):
         try: 
-            handle = Entrez.read(self.doResearch())
-            for i in range(len(handle['IdList'])):
-                newHandle = Entrez.efetch(db=self.database, id=handle['IdList'][i], rettype='genbank', retmode='text')
-                record = SeqIO.read(newHandle, 'genbank')
-                return "Ident: " + record.id + "Description: " + record.description
+            handle = self.doResearch()
+            record = Entrez.read(handle)
+            for i in range(len(record['IdList'])):
+                newHandle = Entrez.efetch(db=self.database, id=record['IdList'][i], rettype='gb', retmode='text')
+                newRecord = SeqIO.read(newHandle, 'gb')
+                print("[",str(i + 1 ),"]", "Ident: " + newRecord.id + " -- Description: " + newRecord.description)
         except IOError: 
             return "No connection!"
 
     def saveOneFile(self):
-        try: 
+        try:
+            saveNumb = int(input('Which number: ')) 
+            self.savingPath = input('Saving path: ')
             record = Entrez.read(self.doResearch())
-            handle = Entrez.efetch(db=self.database, id=record['IdList'][self.saveNumb - 1], rettype='genbank', retmode='text')
-            SeqIO.write(SeqIO.read(handle, 'genbank'), self.savingPath + ".gb", 'genbank')
+            handle = Entrez.efetch(db=self.database, id=record['IdList'][saveNumb - 1], rettype='gb', retmode='text')
+            record = SeqIO.read(handle, 'gb')
+            SeqIO.write(record, self.savingPath + "\\" + record.id + ".gb", 'gb')
+            print('successfully downloaded!')
         except IOError: 
             return "No connection!"
 
@@ -36,7 +44,11 @@ class ResearchFromNcbi:
         try:
             record = Entrez.read(self.doResearch())
             for i in range(len(record['IdList'])):
-                handle = Entrez.efetch(db=self.database, id=record['IdList'][i], rettype='genbank', retmode='text')
-                SeqIO.write(SeqIO.read(handle, 'genbank'), self.savingPath + ".gb", 'genbank')
+                handle = Entrez.efetch(db=self.database, id=record['IdList'][i], rettype='gb', retmode='text')
+                record = SeqIO.read(handle, 'gb')
+                SeqIO.write(record, self.savingPath + "\'" + record.id + ".gb", 'gb')
+                print('successfully downloaded!')
         except IOError:
             return "No connection!"
+
+
