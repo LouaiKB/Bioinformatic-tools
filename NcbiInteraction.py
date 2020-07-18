@@ -50,5 +50,3 @@ class ResearchFromNcbi:
                 print('successfully downloaded!')
         except IOError:
             return "No connection!"
-
-
