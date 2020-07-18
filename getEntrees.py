@@ -13,6 +13,7 @@ class GetEntreeProsite:
             return "No connection!"
         except IOError: 
             return "No connection!" 
+   
     def getName(self):
         try: 
             return self.getPrositeEntree().name
