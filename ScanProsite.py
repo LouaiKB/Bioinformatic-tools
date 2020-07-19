@@ -2,14 +2,9 @@ from Lecture import LireFasta
 from Bio.ExPASy import ScanProsite 
 from getEntrees import GetEntreeProsite 
 
-#we will get a sequence from a fasta file 
-#we will get an prosite entree
-
 def scanSequence(sequence): 
     handle = ScanProsite.scan(seq=sequence)
     return ScanProsite.read(handle)
-
-path = r'sources\sequence.fasta'
 
 def getMotifs(path):
     fastaSeq = LireFasta(path, 'fasta')
