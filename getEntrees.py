@@ -31,7 +31,19 @@ class GetEntreeProsite:
             return self.getPrositeEntree().description
         except IOError: 
             return "Not Found!"
-
+    
+    def getAccessionNumber(self): 
+        try: 
+            return self.getPrositeEntree().accession
+        except IOError: 
+            return 'Not Found!'
+    
+    def getOccurenceNumber(self): 
+        try:
+            return self.getPrositeEntree().nr_total
+        except IOError: 
+            return 'Not Found!'
+    
 class GetEntreeSwiss: 
     def __init__(self, ident, ext):
         self.ident = ident
