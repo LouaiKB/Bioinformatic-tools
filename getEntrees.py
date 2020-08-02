@@ -45,22 +45,88 @@ class GetEntreeProsite:
             return 'Not Found!'
     
 class GetEntreeSwiss: 
-    def __init__(self, ident, ext):
+    def __init__(self, ident):
         self.ident = ident
-        self.ext = ext
 
     def getSwissProtFile(self):
-        handle = ExPASy.get_sprot_raw(self.ident)
-        return SwissProt.read(handle)
+        try:
+            handle = ExPASy.get_sprot_raw(self.ident)
+            return SwissProt.read(handle)
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError: 
+            return 'Page contains more than one record!'
+
+    def getOrganism(self):
+        try:
+            return self.getSwissProtFile().organism
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError:
+            return 'Page contains more than one record!'
+
+    def getGeneName(self):
+        try:
+            return self.getSwissProtFile().gene_name
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError:
+            return 'Page contains more than one record!'
 
     def getName(self): 
-        return self.getSwissProtFile().name
-    
+        try:
+            return self.getSwissProtFile().entry_name
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError:
+            return 'Page contains more than one record!'
+
     def getSequence(self): 
-        return self.getSwissProtFile().seq
+        try:
+            return self.getSwissProtFile().sequence
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError:
+            return 'Page contains more than one record!'
     
     def getDescription(self): 
-        return self.getSwissProtFile().description
-    
+        try:
+            return self.getSwissProtFile().description
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError:
+            return 'Page contains more than one record!'
+
     def getKeyWords(self): 
-        return self.getSwissProtFile().annotations['keywords']
+        try:
+            return self.getSwissProtFile().keywords
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError:
+            return 'Page contains more than one record!'
+    
+    def getAccessions(self):
+        try:
+            return self.getSwissProtFile().accessions
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError:
+            return 'Page contains more than one record!'
+    
+    def getAnnotationUpdate(self):
+        try:
+            return self.getSwissProtFile().annotation_update
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError:
+            return 'Page contains more than one record!'
+        
+    def dataClass(self):
+        try:
+            return self.getSwissProtFile().data_class
+        except IOError: 
+            return 'Not Found!'
+        except AssertionError:
+            return 'Page contains more than one record!'
+        
+            
