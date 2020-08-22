@@ -46,7 +46,7 @@ li {
 .options {
 	display: flex;
 	flex-wrap: wrap;
-	position: relative;
+	position: relative; 
 }
 .container {
 	display: flex;
@@ -79,10 +79,10 @@ li {
 	padding: 20px;
 }
 #section-home {
-	height: 600px;
+	height: 100vh;
 }
 #section-about {
-	height: 600px;
+	height: 100vh;
 	background-image: linear-gradient(#bdd6ff, #327ffc);
 }
 .color-overlay {
